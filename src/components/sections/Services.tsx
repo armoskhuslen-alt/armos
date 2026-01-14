@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { supabase } from "@/lib/supabase";
+import { Link } from "react-router-dom";
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Radio,
@@ -101,26 +102,27 @@ export const Services = () => {
             const Icon = method.icon ? ICON_MAP[method.icon] : null;
 
             return (
-              <motion.div
-                key={method.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.05 * index }}
-                className="group p-6 rounded-2xl bg-card border border-border hover:border-accent/30 hover:shadow-lg transition-all duration-300">
-                {Icon && (
-                  <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center mb-4 group-hover:bg-accent transition-colors">
-                    <Icon className="w-6 h-6 text-primary-foreground" />
-                  </div>
-                )}
+              <Link key={method.id} to={`/service/${method.id}`}>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.05 * index }}
+                  className="group p-6 rounded-2xl bg-card border border-border hover:border-accent/30 hover:shadow-lg transition-all duration-300">
+                  {Icon && (
+                    <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center mb-4 group-hover:bg-accent transition-colors">
+                      <Icon className="w-6 h-6 text-primary-foreground" />
+                    </div>
+                  )}
 
-                <h3 className="text-lg font-display font-semibold text-foreground mb-1">
-                  {method.title}
-                </h3>
+                  <h3 className="text-lg font-display font-semibold text-foreground mb-1">
+                    {method.title}
+                  </h3>
 
-                <p className="text-sm text-muted-foreground">
-                  {method.description.slice(0, 40)}
-                </p>
-              </motion.div>
+                  <p className="text-sm text-muted-foreground">
+                    {method.description.slice(0, 40)}
+                  </p>
+                </motion.div>
+              </Link>
             );
           })}
         </div>
