@@ -117,6 +117,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "footer.quickLinks": "Quick Links",
     "footer.contactInfo": "Contact Info",
     "footer.years": "15+ Years of Technical Excellence",
+
+    return: "Return",
   },
   mn: {
     // Navigation
@@ -227,6 +229,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "footer.quickLinks": "Холбоосууд",
     "footer.contactInfo": "Холбоо барих",
     "footer.years": "15+ жилийн техникийн туршлага",
+
+    return: "Буцах",
   },
 };
 

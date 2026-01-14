@@ -130,10 +130,10 @@ const ServiceDetail = () => {
             className="max-w-3xl mx-auto bg-card rounded-2xl border border-border p-8 sm:p-12 shadow-lg">
             {/* Back */}
             <Link
-              to="/services"
+              to="/#services"
               className="inline-flex items-center gap-2 text-muted-foreground hover:text-accent mb-6">
               <ArrowLeft className="w-4 h-4" />
-              Back to Services
+              {t("return")}
             </Link>
 
             {/* Icon */}
