@@ -234,11 +234,9 @@ export const Contact = () => {
                               : t("contact.form.send") || "Send"}
                           </Button>
                         </DialogClose>
-                        <DialogClose asChild>
-                          <Button variant="ghost">
-                            {t("contact.form.cancel") || "Cancel"}
-                          </Button>
-                        </DialogClose>
+                        <Button variant="ghost">
+                          {t("contact.form.cancel") || "Cancel"}
+                        </Button>
                       </DialogFooter>
                     </form>
                   </DialogContent>

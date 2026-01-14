@@ -8,6 +8,7 @@ interface Partner {
   id: string;
   name: string;
   description: string;
+  logo_path: string;
   website: string | null;
   order_index: number;
 }
@@ -23,7 +24,7 @@ export const Partners = () => {
   const fetchPartners = async () => {
     const { data, error } = await supabase
       .from("partners")
-      .select("id, name, description, website, order_index")
+      .select("id, name, description, website, order_index, logo_path")
       .order("order_index", { ascending: true });
 
     if (!error && data) {
@@ -84,7 +85,14 @@ export const Partners = () => {
                 animate={isInView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.4, delay: 0.05 * index }}
                 className="group p-6 rounded-xl bg-card border border-border hover:border-accent/30 hover:shadow-md transition-all duration-300 text-center">
-                <Handshake className="w-8 h-8 text-steel mx-auto mb-3 group-hover:text-accent transition-colors" />
+                <img
+                  src={
+                    "https://hbtlxsfdeocqytdoktrk.supabase.co/storage/v1/object/public/partner-logos/" +
+                    partner?.logo_path
+                  }
+                  alt="logo"
+                  className="w-auto h-8 text-steel mx-auto mb-3 group-hover:text-accent transition-colors"
+                />
                 <h4 className="font-display font-semibold text-foreground">
                   {partner.name}
                 </h4>
