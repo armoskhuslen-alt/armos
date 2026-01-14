@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { MapPin, Phone, Mail, Globe, Clock, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,32 +17,71 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useLocale } from "@/contexts/LocaleContext";
+import { supabase } from "@/lib/supabase";
+import { useState } from "react";
 
 export const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { t } = useLocale();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [companyContact, setCompanyContact] = useState(null);
+
+  useEffect(() => {
+    supabase
+      .from("contact")
+      .select("*")
+      .single()
+      .then(({ data }) => setCompanyContact(data));
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const { error } = await supabase.from("contacts").insert({
+      name,
+      email,
+      content: message,
+    });
+
+    setLoading(false);
+
+    if (error) {
+      console.error(error);
+      alert("Failed to send message");
+      return;
+    }
+
+    // reset
+    setName("");
+    setEmail("");
+    setMessage("");
+  };
 
   const contactInfo = [
     {
       icon: MapPin,
       labelKey: "contact.headOffice",
-      value: "ХУД 23 хороо тэнгэр плаза 12давхар",
+      value: companyContact?.address || "ХУД 23 хороо тэнгэр плаза 12давхар",
     },
     {
       icon: Phone,
       labelKey: "contact.phone",
-      value: "+976-7015 7000, +976-8888 1520",
+      value: companyContact?.phone || "+976-7015 7000, +976-8888 1520",
     },
     {
       icon: Mail,
       labelKey: "contact.email",
-      value: "info@armos.mn",
+      value: companyContact?.email || "info@armos.mn",
     },
     {
       icon: Globe,
       labelKey: "contact.website",
-      value: "www.armos.mn",
+      value: companyContact?.website || "www.armos.mn",
     },
   ];
 
@@ -138,18 +177,15 @@ export const Contact = () => {
                       </DialogDescription>
                     </DialogHeader>
 
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        // TODO: wire up submit handler / API
-                        // closing handled by DialogClose below
-                      }}
-                      className="mt-4 space-y-4">
+                    <form onSubmit={handleSubmit} className="mt-4 space-y-4">
                       <div>
                         <Label className="mb-1">
                           {t("contact.form.name") || "Name"}
                         </Label>
                         <Input
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          required
                           placeholder={
                             t("contact.form.namePlaceholder") || "Your name"
                           }
@@ -162,6 +198,9 @@ export const Contact = () => {
                         </Label>
                         <Input
                           type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
                           placeholder={
                             t("contact.form.emailPlaceholder") ||
                             "you@company.com"
@@ -174,6 +213,9 @@ export const Contact = () => {
                           {t("contact.form.message") || "Message"}
                         </Label>
                         <Textarea
+                          value={message}
+                          onChange={(e) => setMessage(e.target.value)}
+                          required
                           placeholder={
                             t("contact.form.messagePlaceholder") ||
                             "How can we help?"
@@ -183,8 +225,13 @@ export const Contact = () => {
 
                       <DialogFooter>
                         <DialogClose asChild>
-                          <Button type="submit" variant="secondary">
-                            {t("contact.form.send") || "Send"}
+                          <Button
+                            type="submit"
+                            variant="secondary"
+                            disabled={loading}>
+                            {loading
+                              ? "Sending..."
+                              : t("contact.form.send") || "Send"}
                           </Button>
                         </DialogClose>
                         <DialogClose asChild>

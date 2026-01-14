@@ -8,6 +8,9 @@ import Index from "./pages/Index";
 import News from "./pages/News";
 import NewsDetail from "./pages/NewsDetail";
 import NotFound from "./pages/NotFound";
+import Admin from "./pages/Admin";
+import ProtectedRoute from "./pages/admin/ProtectedRoute";
+import { AuthProvider } from "./contexts/AuthContext";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +25,16 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/news" element={<News />} />
             <Route path="/news/:slug" element={<NewsDetail />} />
+            <Route
+              path="/admin"
+              element={
+                <AuthProvider>
+                  <ProtectedRoute>
+                    <Admin />
+                  </ProtectedRoute>
+                </AuthProvider>
+              }
+            />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

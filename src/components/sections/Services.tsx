@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Radio,
   Scan,
@@ -11,68 +11,31 @@ import {
   Building2,
   Flame,
   ArrowRight,
+  LucideIcon,
 } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
+import { supabase } from "@/lib/supabase";
 
-const methods = [
-  {
-    icon: Radio,
-    titleEn: "Ultrasonic Testing",
-    titleMn: "Хэт авианы шинжилгээ",
-    descEn: "High-frequency sound waves detect internal flaws",
-    descMn: "Өндөр давтамжийн дуун долгио дотоод гэмтлийг илрүүлнэ",
-  },
-  {
-    icon: Scan,
-    titleEn: "Radiography Testing",
-    titleMn: "Рентген шинжилгээ",
-    descEn: "X-ray imaging for internal structure analysis",
-    descMn: "Дотоод бүтцийн рентген дүрс боловсруулалт",
-  },
-  {
-    icon: Magnet,
-    titleEn: "Magnetic Particle",
-    titleMn: "Соронзон ширхэгийн",
-    descEn: "Surface defect detection in ferromagnetic materials",
-    descMn: "Ферромагнит материалын гадаргуугийн согог илрүүлэлт",
-  },
-  {
-    icon: Eye,
-    titleEn: "Visual Testing",
-    titleMn: "Визуаль шинжилгээ",
-    descEn: "Direct observation of surface conditions",
-    descMn: "Гадаргуугийн нөхцөлийг шууд ажиглах",
-  },
-  {
-    icon: Droplets,
-    titleEn: "Liquid Penetrant",
-    titleMn: "Шингэн нэвтрүүлгийн",
-    descEn: "Surface-breaking defect detection",
-    descMn: "Гадаргуугийн согог илрүүлэх",
-  },
-  {
-    icon: Ruler,
-    titleEn: "Wall Thickness",
-    titleMn: "Ханын зузаан хэмжилт",
-    descEn: "Precision measurement of material thickness",
-    descMn: "Материалын зузааны нарийвчилсан хэмжилт",
-  },
-  {
-    icon: Building2,
-    titleEn: "Concrete NDT",
-    titleMn: "Бетон шинжилгээ",
-    descEn: "Structural integrity testing of concrete",
-    descMn: "Бетон байгууламжийн бүтцийн шалгалт",
-  },
-  {
-    icon: Flame,
-    titleEn: "Welding QC",
-    titleMn: "Гагнуурын хяналт",
-    descEn: "Welding quality inspections",
-    descMn: "Гагнуурын чанарын хяналт",
-  },
-];
-
+const ICON_MAP: Record<string, LucideIcon> = {
+  Radio,
+  Scan,
+  Magnet,
+  Eye,
+  Droplets,
+  Ruler,
+  Building2,
+  Flame,
+};
+interface Service {
+  id: string;
+  title: string;
+  description: string;
+  icon: string | null; // ✅ ADD
+  files: string[] | null;
+  active: boolean;
+  created_at: string;
+  updated_at: string;
+}
 const applicationsEn = [
   "Steam boilers and turbines",
   "Steam, water, and gas pipes",
@@ -88,13 +51,29 @@ const applicationsMn = [
   "Түлш, хийн сав",
   "Аж үйлдвэрийн тоног төхөөрөмж",
 ];
-
 export const Services = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { locale, t } = useLocale();
+  const [methods, setMethods] = useState<Service[]>([]);
 
-  const applications = locale === "mn" ? applicationsMn : applicationsEn;
+  useEffect(() => {
+    const fetchServices = async () => {
+      const { data, error } = await supabase
+        .from("services")
+        .select("*")
+        .eq("active", true)
+        .order("created_at");
+
+      if (!error && data) {
+        setMethods(data);
+      } else {
+        console.error(error);
+      }
+    };
+
+    fetchServices();
+  }, []);
 
   return (
     <section id="services" className="py-24 bg-background" ref={ref}>
@@ -118,24 +97,32 @@ export const Services = () => {
 
         {/* Methods Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {methods.map((method, index) => (
-            <motion.div
-              key={method.titleEn}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.05 * index }}
-              className="group p-6 rounded-2xl bg-card border border-border hover:border-accent/30 hover:shadow-lg transition-all duration-300 cursor-pointer">
-              <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center mb-4 group-hover:bg-accent transition-colors duration-300">
-                <method.icon className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <h3 className="text-lg font-display font-semibold text-foreground mb-1">
-                {locale === "mn" ? method.titleMn : method.titleEn}
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                {locale === "mn" ? method.descMn : method.descEn}
-              </p>
-            </motion.div>
-          ))}
+          {methods.map((method, index) => {
+            const Icon = method.icon ? ICON_MAP[method.icon] : null;
+
+            return (
+              <motion.div
+                key={method.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.05 * index }}
+                className="group p-6 rounded-2xl bg-card border border-border hover:border-accent/30 hover:shadow-lg transition-all duration-300">
+                {Icon && (
+                  <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center mb-4 group-hover:bg-accent transition-colors">
+                    <Icon className="w-6 h-6 text-primary-foreground" />
+                  </div>
+                )}
+
+                <h3 className="text-lg font-display font-semibold text-foreground mb-1">
+                  {method.title}
+                </h3>
+
+                <p className="text-sm text-muted-foreground">
+                  {method.description.slice(0, 40)}
+                </p>
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* Applications */}
@@ -148,7 +135,7 @@ export const Services = () => {
             {t("services.applications")}
           </h3>
           <div className="flex flex-wrap justify-center gap-3">
-            {applications.map((app) => (
+            {(locale === "mn" ? applicationsMn : applicationsEn).map((app) => (
               <div
                 key={app}
                 className="flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-border hover:border-accent/50 transition-colors">

@@ -3,7 +3,9 @@ import { motion } from "framer-motion";
 import { useLocale } from "@/contexts/LocaleContext";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { newsData } from "@/data/news";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
+
 import { Calendar, ArrowLeft, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -11,7 +13,41 @@ const NewsDetail = () => {
   const { slug } = useParams();
   const { locale, t } = useLocale();
 
-  const news = newsData.find((n) => n.slug === slug);
+  const [news, setNews] = useState(null);
+  const [relatedNews, setRelatedNews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (!slug) return;
+
+    const fetchNews = async () => {
+      const { data, error } = await supabase
+        .from("news")
+        .select("*")
+        .eq("id", slug)
+        .single();
+
+      if (error) {
+        console.error(error);
+        setLoading(false);
+        return;
+      }
+
+      setNews(data);
+
+      // related news
+      const { data: related } = await supabase
+        .from("news")
+        .select("*")
+        .neq("id", data.id)
+        .order("created_at", { ascending: false })
+        .limit(2);
+
+      setRelatedNews(related || []);
+      setLoading(false);
+    };
+
+    fetchNews();
+  }, [slug]);
 
   if (!news) {
     return (
@@ -33,7 +69,6 @@ const NewsDetail = () => {
   }
 
   // Get related news (excluding current)
-  const relatedNews = newsData.filter((n) => n.id !== news.id).slice(0, 2);
 
   return (
     <div className="min-h-screen bg-background">
@@ -42,8 +77,11 @@ const NewsDetail = () => {
         {/* Hero Image */}
         <section className="relative h-[40vh] sm:h-[60vh] overflow-hidden">
           <img
-            src={news.image}
-            alt={news.title[locale]}
+            src={
+              "https://camnimaofdrycwlmjhtc.supabase.co/storage/v1/object/public/news-pdfs/" +
+              news.pdf_file_path
+            }
+            alt={news.title}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#004270] to-transparent" />
@@ -74,7 +112,7 @@ const NewsDetail = () => {
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Calendar className="w-4 h-4" />
                     <span>
-                      {new Date(news.date).toLocaleDateString(
+                      {new Date(news.created_at).toLocaleDateString(
                         locale === "en" ? "en-US" : "mn-MN",
                         {
                           year: "numeric",
@@ -88,20 +126,18 @@ const NewsDetail = () => {
 
                 {/* Title */}
                 <h1 className="text-3xl sm:text-4xl font-display font-bold text-foreground mb-8">
-                  {news.title[locale]}
+                  {news.title}
                 </h1>
 
                 {/* Content */}
                 <div className="prose prose-lg max-w-none">
-                  {news.content[locale]
-                    .split("\n\n")
-                    .map((paragraph, index) => (
-                      <p
-                        key={index}
-                        className="text-muted-foreground leading-relaxed mb-4">
-                        {paragraph}
-                      </p>
-                    ))}
+                  {news.content.split("\n\n").map((paragraph, index) => (
+                    <p
+                      key={index}
+                      className="text-muted-foreground leading-relaxed mb-4">
+                      {paragraph}
+                    </p>
+                  ))}
                 </div>
 
                 {/* Share */}
@@ -133,13 +169,13 @@ const NewsDetail = () => {
                         <div className="aspect-video overflow-hidden">
                           <img
                             src={related.image}
-                            alt={related.title[locale]}
+                            alt={related.title}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           />
                         </div>
                         <div className="p-4">
                           <h4 className="font-display font-semibold text-foreground group-hover:text-accent transition-colors line-clamp-2">
-                            {related.title[locale]}
+                            {related.title}
                           </h4>
                         </div>
                       </Link>
