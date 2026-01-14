@@ -91,7 +91,17 @@ const translations: Record<Locale, Record<string, string>> = {
       "Our team of certified professionals is ready to assist you with comprehensive NDT solutions tailored to your specific needs.",
     "contact.ctaButton": "Contact Us Today",
     "contact.businessHours": "Business Hours: Mon - Fri, 9:00 - 18:00",
-
+    "contact.modalTitle": "Contact Us",
+    "contact.modalDescription":
+      "Have a question or need assistance? Please fill out the form below and we will get back to you shortly.",
+    "contact.form.name": "Full Name",
+    "contact.form.namePlaceholder": "Enter your full name",
+    "contact.form.email": "Email Address",
+    "contact.form.emailPlaceholder": "Enter your email address",
+    "contact.form.message": "Message",
+    "contact.form.messagePlaceholder": "Write your message here",
+    "contact.form.send": "Send Message",
+    "contact.form.cancel": "Cancel",
     // News
     "news.tag": "News & Milestones",
     "news.title": "Latest Updates",
@@ -188,6 +198,17 @@ const translations: Record<Locale, Record<string, string>> = {
       "Манай гэрчилгээтэй мэргэжилтнүүд таны хэрэгцээнд нийцсэн NDT шийдлүүдээр туслахад бэлэн байна.",
     "contact.ctaButton": "Өнөөдөр холбогдох",
     "contact.businessHours": "Ажлын цаг: Даваа - Баасан, 9:00 - 18:00",
+    "contact.modalTitle": "Холбоо барих",
+    "contact.modalDescription":
+      "Танд асуулт байна уу эсвэл тусламж хэрэгтэй юу? Доорх маягтыг бөглөнө үү, бид тантай удахгүй холбогдох болно.",
+    "contact.form.name": "Овог нэр",
+    "contact.form.namePlaceholder": "Овог нэрээ оруулна уу",
+    "contact.form.email": "Имэйл хаяг",
+    "contact.form.emailPlaceholder": "Имэйл хаягаа оруулна уу",
+    "contact.form.message": "Зурвас",
+    "contact.form.messagePlaceholder": "Энд зурвасаа бичнэ үү",
+    "contact.form.send": "Илгээх",
+    "contact.form.cancel": "Цуцлах",
 
     // News
     "news.tag": "Мэдээ, мэдээлэл",
