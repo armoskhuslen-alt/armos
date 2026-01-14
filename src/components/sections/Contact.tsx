@@ -27,7 +27,7 @@ export const Contact = () => {
     {
       icon: MapPin,
       labelKey: "contact.headOffice",
-      value: "ХУД 23хороо тэнгэр плаза 12давхар",
+      value: "ХУД 23 хороо тэнгэр плаза 12давхар",
     },
     {
       icon: Phone,
