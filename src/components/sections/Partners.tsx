@@ -3,6 +3,7 @@ import { useRef, useEffect, useState } from "react";
 import { Award, Handshake } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { supabase } from "@/lib/supabase";
+import bg from "@/assets/bg.jpg";
 
 interface Partner {
   id: string;
@@ -39,8 +40,18 @@ export const Partners = () => {
   }, []);
 
   return (
-    <section id="partners" className="py-24 bg-secondary" ref={ref}>
-      <div className="container px-4 sm:px-6 lg:px-8">
+    <section
+      id="partners"
+      className="py-24 bg-secondary overflow-hidden relative"
+      ref={ref}>
+      <img
+        src={bg}
+        alt="Services Background"
+        className="absolute inset-0 w-full h-full object-cover object-center z-0"
+      />
+      {/* Optional Overlay for better text contrast */}
+      <div className="absolute inset-0 bg-black/50 z-1"></div>
+      <div className="container relative px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -50,10 +61,10 @@ export const Partners = () => {
           <span className="inline-block px-4 py-1.5 rounded-full bg-accent/10 text-accent font-semibold text-sm mb-4">
             {t("partners.tag")}
           </span>
-          <h2 className="text-4xl sm:text-5xl font-display font-bold text-foreground mb-6">
+          <h2 className="text-4xl sm:text-5xl font-display font-bold text-white mb-6">
             {t("partners.title")}
           </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
+          <p className="text-lg text-gray-200 leading-relaxed">
             {t("partners.description")}
           </p>
         </motion.div>

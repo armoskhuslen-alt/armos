@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useLocale } from "@/contexts/LocaleContext";
 import { Link, useLocation } from "react-router-dom";
 import { LocaleToggle } from "../ui/LocaleToggle";
+import Logo from "@/assets/logo.jpg";
+import LogoNo from "@/assets/logo-no.png";
 
 const navLinks = [
   { href: "/#about", label: "nav.about" },
@@ -55,12 +56,11 @@ export const Header = () => {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3">
-              <div
-                className={`text-2xl font-display font-bold transition-colors ${
-                  isScrolled ? "text-foreground" : "text-primary-foreground"
-                }`}>
-                ARMOS
-              </div>
+              <img
+                src={LogoNo}
+                alt="Industrial inspection"
+                className="w-auto h-8 object-cover"
+              />
             </Link>
 
             {/* Desktop Navigation */}

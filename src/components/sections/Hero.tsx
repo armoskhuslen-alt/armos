@@ -22,7 +22,7 @@ export const Hero = () => {
           alt="Industrial inspection"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 hero-gradient opacity-90" />
+        <div className="absolute inset-0 hero-gradient opacity-80" />
         <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/70 to-transparent" />
       </div>
 

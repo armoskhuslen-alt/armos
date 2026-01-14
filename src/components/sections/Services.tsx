@@ -16,6 +16,7 @@ import {
 import { useLocale } from "@/contexts/LocaleContext";
 import { supabase } from "@/lib/supabase";
 import { Link } from "react-router-dom";
+import test from "@/assets/testing.jpg";
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Radio,
@@ -77,21 +78,31 @@ export const Services = () => {
   }, []);
 
   return (
-    <section id="services" className="py-24 bg-background" ref={ref}>
-      <div className="container px-4 sm:px-6 lg:px-8">
+    <section
+      id="services"
+      className="py-24 bg-background relative  overflow-hidden"
+      ref={ref}>
+      <img
+        src={test}
+        alt="Services Background"
+        className="absolute inset-0 w-full h-full object-cover object-center z-0"
+      />
+      {/* Optional Overlay for better text contrast */}
+      <div className="absolute inset-0 bg-black/50 z-1"></div>
+      <div className="container relative z-10 px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-accent/10 text-accent font-semibold text-sm mb-4">
+          className="text-center max-w-3xl mx-auto mb-16 text-white">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-accent/20 text-accent font-semibold text-sm mb-4">
             {t("services.tag")}
           </span>
-          <h2 className="text-4xl sm:text-5xl font-display font-bold text-foreground mb-6">
+          <h2 className="text-4xl sm:text-5xl font-display font-bold mb-6">
             {t("services.title")}
           </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
+          <p className="text-lg leading-relaxed text-gray-200">
             {t("services.description")}
           </p>
         </motion.div>

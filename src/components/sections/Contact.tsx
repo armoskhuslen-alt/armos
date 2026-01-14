@@ -19,6 +19,7 @@ import { Label } from "@/components/ui/label";
 import { useLocale } from "@/contexts/LocaleContext";
 import { supabase } from "@/lib/supabase";
 import { useState } from "react";
+import bg from "@/assets/logo-bg.jpg";
 
 export const Contact = () => {
   const ref = useRef(null);
@@ -138,23 +139,30 @@ export const Contact = () => {
               initial={{ opacity: 0, x: 30 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="p-8 rounded-2xl hero-gradient text-primary-foreground">
-              <div className="flex items-center gap-2 mb-4">
+              className="p-8 rounded-2xl hero-gradient text-primary-foreground relative overflow-hidden">
+              <img
+                src={bg}
+                alt="Services Background"
+                className="absolute inset-0 w-full h-full object-cover object-center z-0"
+              />
+              {/* Optional Overlay for better text contrast */}
+              <div className="absolute inset-0 bg-black/50 z-1"></div>
+              <div className="flex relative items-center gap-2 mb-4">
                 <Clock className="w-5 h-5 text-accent" />
                 <span className="text-primary-foreground/70">
                   Quick Response Time
                 </span>
               </div>
 
-              <h3 className="text-3xl font-display font-bold mb-4">
+              <h3 className="text-3xl relative font-display font-bold mb-4">
                 {t("contact.requestInspection")}
               </h3>
 
-              <p className="text-primary-foreground/80 mb-8 leading-relaxed">
+              <p className="text-primary-foreground/80 relative mb-8 leading-relaxed">
                 {t("contact.ctaDescription")}
               </p>
 
-              <div className="space-y-4">
+              <div className="space-y-4 relative">
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button
