@@ -105,7 +105,7 @@ const ServiceDetail = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="pt-24 pb-16">
+      <main className=" pb-16">
         <section className="py-32 hero-gradient">
           <div className="container px-4 sm:px-6 lg:px-8">
             <motion.div
