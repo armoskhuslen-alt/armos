@@ -107,7 +107,7 @@ const NewsDetail = () => {
                 {/* Meta */}
                 <div className="flex flex-wrap items-center gap-4 mb-6">
                   <span className="px-4 py-1.5 rounded-full bg-accent/10 text-accent font-semibold text-sm">
-                    {locale === "en" ? news.category : news.categoryMn}
+                    {news.cat}
                   </span>
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Calendar className="w-4 h-4" />

@@ -6,6 +6,7 @@ interface News {
   id: string;
   title: string;
   content: string;
+  cat: string;
   pdf_file_path: string | null;
   published: boolean;
   created_at: string;
@@ -20,6 +21,7 @@ export default function NewsManager() {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
+    cat: "",
     published: false,
   });
   const [pdfFile, setPdfFile] = useState<File | null>(null);
@@ -125,11 +127,12 @@ export default function NewsManager() {
       setFormData({
         title: newsItem.title,
         content: newsItem.content,
+        cat: newsItem.cat,
         published: newsItem.published,
       });
     } else {
       setEditingNews(null);
-      setFormData({ title: "", content: "", published: false });
+      setFormData({ title: "", content: "", cat: "", published: false });
     }
     setPdfFile(null);
     setShowModal(true);
@@ -138,7 +141,7 @@ export default function NewsManager() {
   const closeModal = () => {
     setShowModal(false);
     setEditingNews(null);
-    setFormData({ title: "", content: "", published: false });
+    setFormData({ title: "", content: "", cat: "", published: false });
     setPdfFile(null);
   };
 
@@ -241,6 +244,20 @@ export default function NewsManager() {
                   value={formData.title}
                   onChange={(e) =>
                     setFormData({ ...formData, title: e.target.value })
+                  }
+                  required
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Category
+                </label>
+                <input
+                  type="text"
+                  value={formData.cat}
+                  onChange={(e) =>
+                    setFormData({ ...formData, cat: e.target.value })
                   }
                   required
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-transparent"

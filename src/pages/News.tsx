@@ -98,7 +98,7 @@ const News = () => {
                         {news.title}
                       </h2>
                       <p className="text-muted-foreground mb-4 line-clamp-3">
-                        {news.excerpt}
+                        {news.cat}
                       </p>
                       <div className="flex items-center gap-2 text-accent font-medium">
                         <span>{t("news.readMore")}</span>
