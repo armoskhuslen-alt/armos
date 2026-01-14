@@ -42,19 +42,19 @@ interface Service {
 }
 
 const ServiceDetail = () => {
-  const { id } = useParams(); // /services/:id
+  const { slug } = useParams(); // /services/:id
   const [service, setService] = useState<Service | null>(null);
   const [loading, setLoading] = useState(true);
   const { locale, t } = useLocale();
 
   useEffect(() => {
-    if (!id) return;
+    if (!slug) return;
 
     const fetchService = async () => {
       const { data, error } = await supabase
         .from("services")
         .select("*")
-        .eq("id", id)
+        .eq("id", slug)
         .eq("active", true)
         .single();
 
@@ -69,7 +69,7 @@ const ServiceDetail = () => {
     };
 
     fetchService();
-  }, [id]);
+  }, [slug]);
 
   if (loading) {
     return (
@@ -113,14 +113,11 @@ const ServiceDetail = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="text-center max-w-3xl mx-auto">
-              <span className="inline-block px-4 py-1.5 rounded-full bg-accent/20 text-accent font-semibold text-sm mb-4">
-                {t("news.tag")}
-              </span>
               <h1 className="text-4xl sm:text-5xl font-display font-bold text-primary-foreground mb-6">
-                {t("news.title")}
+                {t("service.title")}
               </h1>
               <p className="text-lg text-primary-foreground/70">
-                {t("news.description")}
+                {t("service.description")}
               </p>
             </motion.div>
           </div>

@@ -55,7 +55,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "services.description":
       "We offer a complete range of non-destructive testing methods for installation and operational inspection across all industrial sectors.",
     "services.applications": "Applications",
-
+    "service.title": "Our Services",
+    "service.description":
+      "We provide professional non-destructive testing and inspection services to ensure safety, quality, and reliability across industrial and energy sectors.",
     // Statistics
     "stats.tag": "Our Impact",
     "stats.title": "Proven Track Record",
@@ -162,7 +164,9 @@ const translations: Record<Locale, Record<string, string>> = {
     "services.description":
       "Бид бүх аж үйлдвэрийн салбарт суурилуулалт болон ашиглалтын үеийн хяналт шалгалтын бүрэн хүрээний эвдэлгүй шалгалтын аргуудыг санал болгодог.",
     "services.applications": "Хэрэглээ",
-
+    "service.title": "Манай үйлчилгээ",
+    "service.description":
+      "Бид аж үйлдвэр болон эрчим хүчний салбарт аюулгүй байдал, чанар, найдвартай ажиллагааг хангах мэргэжлийн үл эвдэх сорилт болон хяналт шалгалтын үйлчилгээг үзүүлдэг.",
     // Statistics
     "stats.tag": "Амжилт",
     "stats.title": "Батлагдсан туршлага",
