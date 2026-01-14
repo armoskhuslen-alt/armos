@@ -71,7 +71,7 @@ const News = () => {
                     <div className="aspect-video overflow-hidden">
                       <img
                         src={
-                          "https://camnimaofdrycwlmjhtc.supabase.co/storage/v1/object/public/news-pdfs/" +
+                          "https://hbtlxsfdeocqytdoktrk.supabase.co/storage/v1/object/public/news-pdfs/" +
                           news.pdf_file_path
                         }
                         alt={news.title}

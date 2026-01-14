@@ -191,7 +191,7 @@ export default function NewsManager() {
                     rel="noopener noreferrer"
                     className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1">
                     <FileText className="w-4 h-4" />
-                    View PDF
+                    show image
                   </a>
                 )}
               </div>
@@ -286,7 +286,6 @@ export default function NewsManager() {
                 <div className="border-2 border-dashed border-slate-300 rounded-lg p-4 text-center">
                   <input
                     type="file"
-                    accept="application/pdf"
                     onChange={(e) => setPdfFile(e.target.files?.[0] || null)}
                     className="hidden"
                     id="pdf-upload"

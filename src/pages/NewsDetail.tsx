@@ -78,7 +78,7 @@ const NewsDetail = () => {
         <section className="relative h-[40vh] sm:h-[60vh] overflow-hidden">
           <img
             src={
-              "https://camnimaofdrycwlmjhtc.supabase.co/storage/v1/object/public/news-pdfs/" +
+              "https://hbtlxsfdeocqytdoktrk.supabase.co/storage/v1/object/public/news-pdfs/" +
               news.pdf_file_path
             }
             alt={news.title}
