@@ -22,26 +22,24 @@ const App = () => (
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/news" element={<News />} />
-              <Route path="/news/:slug" element={<NewsDetail />} />
-              <Route path="/service/:slug" element={<ServiceDetail />} />
 
-              {/* Protected Admin */}
-              <Route
-                path="/admin"
-                element={
-                  <ProtectedRoute>
-                    <Admin />
-                  </ProtectedRoute>
-                }
-              />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/news/:slug" element={<NewsDetail />} />
+            <Route path="/service/:slug" element={<ServiceDetail />} />
 
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute>
+                  <Admin />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </TooltipProvider>
       </LocaleProvider>
     </AuthProvider>

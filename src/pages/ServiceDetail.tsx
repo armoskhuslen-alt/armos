@@ -18,6 +18,7 @@ import {
   Flame,
   type LucideIcon,
 } from "lucide-react";
+import { useLocale } from "@/contexts/LocaleContext";
 
 /* Icon map */
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -44,6 +45,7 @@ const ServiceDetail = () => {
   const { id } = useParams(); // /services/:id
   const [service, setService] = useState<Service | null>(null);
   const [loading, setLoading] = useState(true);
+  const { locale, t } = useLocale();
 
   useEffect(() => {
     if (!id) return;
@@ -104,6 +106,25 @@ const ServiceDetail = () => {
       <Header />
 
       <main className="pt-24 pb-16">
+        <section className="py-32 hero-gradient">
+          <div className="container px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center max-w-3xl mx-auto">
+              <span className="inline-block px-4 py-1.5 rounded-full bg-accent/20 text-accent font-semibold text-sm mb-4">
+                {t("news.tag")}
+              </span>
+              <h1 className="text-4xl sm:text-5xl font-display font-bold text-primary-foreground mb-6">
+                {t("news.title")}
+              </h1>
+              <p className="text-lg text-primary-foreground/70">
+                {t("news.description")}
+              </p>
+            </motion.div>
+          </div>
+        </section>
         <div className="container px-4 sm:px-6 lg:px-8">
           <motion.article
             initial={{ opacity: 0, y: 30 }}
