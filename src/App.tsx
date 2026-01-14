@@ -11,36 +11,40 @@ import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
 import ProtectedRoute from "./pages/admin/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
+import ServiceDetail from "./pages/ServiceDetail";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <LocaleProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/news" element={<News />} />
-            <Route path="/news/:slug" element={<NewsDetail />} />
-            <Route
-              path="/admin"
-              element={
-                <AuthProvider>
+    <AuthProvider>
+      <LocaleProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/news" element={<News />} />
+              <Route path="/news/:slug" element={<NewsDetail />} />
+              <Route path="/service/:slug" element={<ServiceDetail />} />
+
+              {/* Protected Admin */}
+              <Route
+                path="/admin"
+                element={
                   <ProtectedRoute>
                     <Admin />
                   </ProtectedRoute>
-                </AuthProvider>
-              }
-            />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </LocaleProvider>
+                }
+              />
+
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </LocaleProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
